@@ -1,0 +1,296 @@
+/* ==================== Badge 容器 ==================== */
+.ai-badge-container {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1000;
+}
+
+/* ==================== Badge 基础样式 ==================== */
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  cursor: help;
+  position: relative;
+  z-index: 1001;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1;
+}
+
+.ai-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* ==================== Badge 图标 ==================== */
+.badge-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.badge-text {
+  font-size: 11px;
+  letter-spacing: 0.3px;
+}
+
+/* ==================== 颜色主题 ==================== */
+.score-safe {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.score-warning {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+}
+
+.score-danger {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+}
+
+.score-error {
+  background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
+}
+
+/* ==================== 加载状态 ==================== */
+.ai-loading {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.loading-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 11px;
+}
+
+/* ==================== Tooltip 样式 ==================== */
+.ai-tooltip {
+  display: none;
+  min-width: 300px;
+  max-width: 450px;
+  max-height: 500px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+  color: #F9FAFB;
+  text-align: left;
+  border-radius: 12px;
+  padding: 14px;
+  position: fixed;
+  z-index: 2147483647;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ai-tooltip.show {
+  display: block !important;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.ai-tooltip.measuring {
+  display: block !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tooltip 滚动条样式 */
+.ai-tooltip::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ai-tooltip::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.ai-tooltip::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.ai-tooltip::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Tooltip 箭头（暂时隐藏，因为使用 fixed 定位箭头位置难以计算） */
+.ai-tooltip::after {
+  display: none;
+}
+
+/* Tooltip 显示控制通过 JavaScript 处理 */
+
+/* ==================== Tooltip 内容 ==================== */
+.tooltip-header {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+}
+
+.tooltip-header .score-safe {
+  color: #10B981;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.tooltip-header .score-warning {
+  color: #F59E0B;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.tooltip-header .score-danger {
+  color: #EF4444;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.tooltip-row {
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tooltip-row strong {
+  color: #9CA3AF;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.tooltip-reason {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  line-height: 1.6;
+  color: #D1D5DB;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.tooltip-reason strong {
+  color: #9CA3AF;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ==================== 点击分析按钮 ==================== */
+.ai-analyze-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.ai-analyze-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+}
+
+.ai-analyze-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
+}
+
+/* ==================== 响应式优化 ==================== */
+@media (max-width: 768px) {
+  .ai-tooltip {
+    width: 240px;
+    font-size: 12px;
+  }
+
+  .ai-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .badge-text {
+    font-size: 10px;
+  }
+}
+
+/* ==================== 暗色模式适配 ==================== */
+@media (prefers-color-scheme: dark) {
+  .ai-badge {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .ai-tooltip {
+    background: linear-gradient(135deg, #0F172A 0%, #020617 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* ==================== 防止与Twitter样式冲突 ==================== */
+.ai-badge * {
+  box-sizing: border-box;
+}
+
+.ai-badge-container {
+  z-index: 1;
+}

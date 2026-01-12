@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(del \"image.png\" \"image copy.png\" \"image copy 2.png\")",
+      "Bash(ls:*)"
+    ]
+  }
+}

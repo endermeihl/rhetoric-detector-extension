@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Rhetoric Lens - 舆论透镜",
+  "version": "1.0.0",
+  "description": "分析推文的修辞密度与操纵指数，让隐藏的话术可视化",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://twitter.com/*",
+    "http://localhost:11434/*",
+    "http://127.0.0.1:8881/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://localhost:11434 http://127.0.0.1:8881"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://twitter.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end"
+    }
+  ]
+}

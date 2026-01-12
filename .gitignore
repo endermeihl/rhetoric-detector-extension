@@ -1,0 +1,16 @@
+# Temporary summary documents with date prefix (per docskills.md)
+[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*.md
+
+# Temporary screenshots and debug images
+image*.png
+screenshot*.png
+
+# Training data and datasets
+*.jsonl
+
+# IDE settings
+.vscode/
+
+# Temporary debug files
+debug*.html
+temp*.html
