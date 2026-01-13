@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Rhetoric Lens - 舆论透镜",
-  "version": "1.0.0",
-  "description": "分析推文的修辞密度与操纵指数，让隐藏的话术可视化",
+  "version": "2.0.0",
+  "description": "分析Twitter/X和知乎内容的修辞密度与操纵指数，让隐藏的话术可视化",
   "permissions": [
     "storage",
     "activeTab"
@@ -10,6 +10,8 @@
   "host_permissions": [
     "https://x.com/*",
     "https://twitter.com/*",
+    "https://www.zhihu.com/*",
+    "https://zhuanlan.zhihu.com/*",
     "http://localhost:11434/*",
     "http://127.0.0.1:8881/*"
   ],
@@ -22,8 +24,20 @@
         "https://x.com/*",
         "https://twitter.com/*"
       ],
-      "js": ["content.js"],
-      "css": ["styles.css"],
+      "js": [
+        "shared/core/utils.js",
+        "shared/core/config.js",
+        "shared/core/cache.js",
+        "shared/core/analyzer.js",
+        "shared/core/ui-renderer.js",
+        "shared/core/queue.js",
+        "shared/core/data-collector.js",
+        "platforms/platform-adapter.js",
+        "platforms/twitter/twitter-selectors.js",
+        "platforms/twitter/twitter-adapter.js",
+        "content-scripts/content-twitter.js"
+      ],
+      "css": ["styles/styles-common.css"],
       "run_at": "document_end"
     }
   ]
