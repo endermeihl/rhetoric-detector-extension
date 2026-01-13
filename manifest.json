@@ -39,6 +39,27 @@
       ],
       "css": ["styles/styles-common.css"],
       "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://www.zhihu.com/*",
+        "https://zhuanlan.zhihu.com/*"
+      ],
+      "js": [
+        "shared/core/utils.js",
+        "shared/core/config.js",
+        "shared/core/cache.js",
+        "shared/core/analyzer.js",
+        "shared/core/ui-renderer.js",
+        "shared/core/queue.js",
+        "shared/core/data-collector.js",
+        "platforms/platform-adapter.js",
+        "platforms/zhihu/zhihu-selectors.js",
+        "platforms/zhihu/zhihu-adapter.js",
+        "content-scripts/content-zhihu.js"
+      ],
+      "css": ["styles/styles-common.css", "styles/styles-zhihu.css"],
+      "run_at": "document_end"
     }
   ]
 }
