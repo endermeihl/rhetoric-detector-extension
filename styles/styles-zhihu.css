@@ -1,0 +1,95 @@
+/* ==================== 知乎特定样式 ==================== */
+
+/*
+ * 知乎平台的样式调整
+ * 基于 styles-common.css，这里只添加平台特定的覆盖
+ */
+
+/* Badge 容器调整（知乎） */
+.ai-badge-container {
+  margin: 12px 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 回答内容中的 badge */
+.AnswerCard .ai-badge-container,
+.List-item .ai-badge-container {
+  margin: 10px 0 8px 0;
+}
+
+/* 评论中的 badge（较小的间距）*/
+.CommentItem .ai-badge-container {
+  margin: 6px 0;
+  padding: 0 10px;
+}
+
+.CommentItem .ai-badge {
+  padding: 6px 12px;
+  font-size: 11px;
+}
+
+.CommentItem .badge-icon {
+  font-size: 12px;
+}
+
+.CommentItem .badge-text {
+  font-size: 10px;
+}
+
+/* 适配知乎的深色主题（如果用户启用）*/
+@media (prefers-color-scheme: dark) {
+  .ai-badge {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .ai-tooltip {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* 知乎富文本内容中的调整 */
+.RichContent .ai-badge-container,
+.RichText .ai-badge-container {
+  margin: 8px 0;
+}
+
+/* 手动分析按钮（知乎风格）*/
+.ai-analyze-btn {
+  background: linear-gradient(135deg, #0084ff 0%, #0066cc 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.ai-analyze-btn:hover {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.3);
+}
+
+.ai-analyze-btn:active {
+  transform: translateY(0);
+}
+
+/* 确保 badge 不会被知乎的样式覆盖 */
+.ai-badge,
+.ai-tooltip {
+  z-index: 10000 !important;
+}
+
+/* 知乎滚动容器内的 tooltip 定位调整 */
+.Topstory-container .ai-tooltip,
+.Question-main .ai-tooltip {
+  position: fixed !important;
+}
