@@ -12,11 +12,10 @@
     "https://twitter.com/*",
     "https://www.zhihu.com/*",
     "https://zhuanlan.zhihu.com/*",
-    "http://localhost:11434/*",
-    "http://127.0.0.1:8881/*"
+    "https://llm.endermei.com/*"
   ],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://localhost:11434 http://127.0.0.1:8881"
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://llm.endermei.com"
   },
   "content_scripts": [
     {
@@ -27,11 +26,9 @@
       "js": [
         "shared/core/utils.js",
         "shared/core/config.js",
-        "shared/core/cache.js",
         "shared/core/analyzer.js",
         "shared/core/ui-renderer.js",
         "shared/core/queue.js",
-        "shared/core/data-collector.js",
         "platforms/platform-adapter.js",
         "platforms/twitter/twitter-selectors.js",
         "platforms/twitter/twitter-adapter.js",
@@ -48,11 +45,9 @@
       "js": [
         "shared/core/utils.js",
         "shared/core/config.js",
-        "shared/core/cache.js",
         "shared/core/analyzer.js",
         "shared/core/ui-renderer.js",
         "shared/core/queue.js",
-        "shared/core/data-collector.js",
         "platforms/platform-adapter.js",
         "platforms/zhihu/zhihu-selectors.js",
         "platforms/zhihu/zhihu-adapter.js",

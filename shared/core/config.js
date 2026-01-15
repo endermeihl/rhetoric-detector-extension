@@ -6,11 +6,11 @@
 class ConfigManager {
   constructor() {
     this.config = {
-      API_ENDPOINT: "http://localhost:11434/api/chat",
-      MODEL_NAME: "xiuci-win-pro:latest",
+      API_ENDPOINT: "https://llm.endermei.com/v1/chat/completions",
+      MODEL_NAME: "rhetoric",
+      API_KEY: "F@EcD<9x%k(d&96WMak>&D86",                // LiteLLM API 密钥，格式: Bearer token
       MAX_CONCURRENT: 3,          // 最大并发请求数
       DEBOUNCE_DELAY: 500,        // 滚动停止后延迟分析时间(ms)
-      CACHE_EXPIRY: 24 * 60 * 60 * 1000, // 缓存过期时间 24小时
       ENABLE_AUTO_ANALYZE: true   // 是否自动分析（false则需要点击）
     };
   }
@@ -28,11 +28,12 @@ class ConfigManager {
     }
 
     try {
-      const result = await chrome.storage.local.get(['apiEndpoint', 'modelName', 'autoAnalyze']);
+      const result = await chrome.storage.local.get(['apiEndpoint', 'modelName', 'apiKey', 'autoAnalyze']);
       if (result.apiEndpoint) this.config.API_ENDPOINT = result.apiEndpoint;
       if (result.modelName) this.config.MODEL_NAME = result.modelName;
+      if (result.apiKey) this.config.API_KEY = result.apiKey;
       if (result.autoAnalyze !== undefined) this.config.ENABLE_AUTO_ANALYZE = result.autoAnalyze;
-      console.log("[Config] 配置已加载:", this.config);
+      console.log("[Config] 配置已加载:", { ...this.config, API_KEY: this.config.API_KEY ? "***" : "(未设置)" });
     } catch (error) {
       console.error("[Config] 加载配置失败:", error);
     }

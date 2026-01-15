@@ -1,37 +1,34 @@
 // ==================== API 调用 ====================
 
 /**
- * 文本分析器类 - 调用 Ollama API
+ * 文本分析器类 - 调用 LiteLLM API (OpenAI 兼容格式)
  */
 class TextAnalyzer {
-  constructor(cache, config) {
-    this.cache = cache;
+  constructor(config) {
     this.config = config;
   }
 
   /**
    * 分析文本的修辞和操纵指数
    * @param {string} text - 要分析的文本
-   * @returns {Promise<{result: Object, fromCache: boolean, hash: string}>}
+   * @returns {Promise<{result: Object}>}
    */
   async analyzeText(text) {
-    const utils = window.RhetoricLensUtils || require('./utils.js');
-    const hash = utils.simpleHash(text);
-
-    // 检查缓存
-    if (this.cache.has(hash)) {
-      console.log(`[Analyzer] 命中缓存: ${text.substring(0, 30)}...`);
-      return { result: this.cache.get(hash), fromCache: true, hash };
-    }
-
     try {
+      const headers = { "Content-Type": "application/json" };
+      const apiKey = this.config.get('API_KEY');
+      if (apiKey) {
+        // 支持两种格式: "Bearer xxx" 或直接 "xxx"
+        headers["Authorization"] = apiKey.startsWith('Bearer ') ? apiKey : `Bearer ${apiKey}`;
+      }
+
       const response = await fetch(this.config.get('API_ENDPOINT'), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
         body: JSON.stringify({
           model: this.config.get('MODEL_NAME'),
           messages: [{ role: "user", content: text }],
-          format: "json",
+          response_format: { type: "json_object" },
           stream: false
         })
       });
@@ -44,9 +41,10 @@ class TextAnalyzer {
 
       let result;
       try {
-        result = JSON.parse(data.message.content);
+        // OpenAI 兼容格式: choices[0].message.content
+        result = JSON.parse(data.choices[0].message.content);
       } catch (parseError) {
-        console.error("[Analyzer] JSON 解析失败:", data.message.content);
+        console.error("[Analyzer] JSON 解析失败:", data.choices?.[0]?.message?.content);
         throw new Error("模型返回的不是有效的JSON格式");
       }
 
@@ -56,8 +54,7 @@ class TextAnalyzer {
         throw new Error("模型返回格式不正确，缺少分数字段");
       }
 
-      // 注意：不在这里保存到缓存，而是在保存到数据库之后
-      return { result, fromCache: false, hash };
+      return { result };
     } catch (error) {
       console.error("[Analyzer] ❌ API调用失败:", error.message);
 
@@ -69,11 +66,9 @@ class TextAnalyzer {
           manipulation_score: 0,
           label: "分析失败",
           reason: error.message.includes("Failed to fetch") || error.message.includes("fetch")
-            ? "无法连接到AI服务，请确保Ollama正在运行"
+            ? "无法连接到AI服务，请检查网络连接"
             : error.message
-        },
-        fromCache: false,
-        hash
+        }
       };
     }
   }

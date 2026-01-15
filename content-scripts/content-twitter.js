@@ -6,24 +6,14 @@
  */
 class RhetoricLensTwitter {
   constructor() {
-    // 加载所有依赖模块
-    const ConfigMod = window.RhetoricLensConfig;
-    const CacheMod = window.RhetoricLensCache;
-    const AnalyzerMod = window.RhetoricLensAnalyzer;
-    const UIMod = window.RhetoricLensUI;
-    const QueueMod = window.RhetoricLensQueue;
-    const DataCollectorMod = window.RhetoricLensDataCollector;
-
     // 平台适配器
     this.platformAdapter = new window.TwitterAdapter();
 
     // 核心组件
     this.config = null;
-    this.cache = null;
     this.analyzer = null;
     this.renderer = null;
     this.queue = null;
-    this.dataCollector = null;
 
     // 会话级别去重（文本hash）
     this.processedTexts = new Set();
@@ -47,15 +37,10 @@ class RhetoricLensTwitter {
       this.config = new window.RhetoricLensConfig.ConfigManager();
       await this.config.load();
 
-      // 初始化缓存
-      this.cache = new window.RhetoricLensCache.CacheManager(this.config);
-      await this.cache.load();
-
       // 初始化核心组件
-      this.analyzer = new window.RhetoricLensAnalyzer.TextAnalyzer(this.cache, this.config);
+      this.analyzer = new window.RhetoricLensAnalyzer.TextAnalyzer(this.config);
       this.renderer = new window.RhetoricLensUI.UIRenderer();
       this.queue = new window.RhetoricLensQueue.RequestQueue(this.config.get('MAX_CONCURRENT'));
-      this.dataCollector = new window.RhetoricLensDataCollector.DataCollector(this.config);
 
       // 启动平台监听
       this.platformAdapter.initMonitoring(() => this.scanPage());
@@ -158,32 +143,12 @@ class RhetoricLensTwitter {
       this.insertBadge(insertionPoint, loadingBadge);
 
       // 调用分析 API
-      const { result, fromCache, hash } = await this.analyzer.analyzeText(item.text);
+      const { result } = await this.analyzer.analyzeText(item.text);
 
       // 再次检查插入点
       if (!insertionPoint.container.isConnected && insertionPoint.reference && !insertionPoint.reference.isConnected) {
         console.warn('[Rhetoric Lens] ⚠️ 插入点在分析完成后被移除');
         return;
-      }
-
-      // 保存数据（如果不是缓存且没有错误）
-      if (!result.error && !fromCache) {
-        console.log('[Rhetoric Lens] 💾 保存分析结果到数据集');
-        await this.dataCollector.save(item.text, result, {
-          ...item.metadata,
-          cached: false
-        });
-
-        // 保存到缓存
-        console.log('[Rhetoric Lens] 📦 保存到本地缓存');
-        await this.cache.save(hash, result);
-      } else {
-        if (result.error) {
-          console.log('[Rhetoric Lens] ⏭️ 跳过保存：分析出错');
-        }
-        if (fromCache) {
-          console.log('[Rhetoric Lens] ⏭️ 跳过保存：命中缓存');
-        }
       }
 
       // 移除 loading，显示结果
@@ -260,11 +225,9 @@ class RhetoricLensTwitter {
     const dependencies = [
       'RhetoricLensUtils',
       'RhetoricLensConfig',
-      'RhetoricLensCache',
       'RhetoricLensAnalyzer',
       'RhetoricLensUI',
       'RhetoricLensQueue',
-      'RhetoricLensDataCollector',
       'TwitterAdapter'
     ];
 
