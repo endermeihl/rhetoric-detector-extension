@@ -243,7 +243,7 @@ function createResultBadge(result) {
     `;
   } else {
     badgeIcon.textContent = colorClass === 'score-danger' ? '🔴' : colorClass === 'score-warning' ? '🟡' : '🟢';
-    badgeText.textContent = `R:${result.rhetoric_score} M:${result.manipulation_score}`;
+    badgeText.textContent = `${result.label || '未分类'} | R:${result.rhetoric_score} M:${result.manipulation_score}`;
 
     const tooltipHeader = document.createElement('div');
     tooltipHeader.className = 'tooltip-header';
